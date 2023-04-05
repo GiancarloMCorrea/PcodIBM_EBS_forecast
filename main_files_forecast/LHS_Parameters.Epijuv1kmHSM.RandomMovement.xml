@@ -1,0 +1,3095 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_231" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>Eggs</string>
+   <object class="sh.pcod.EggStage.EggStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>0.0</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>8.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>365.0</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Pacific cod egg hatch sucess rate</string>
+     <object class="sh.pcod.EggStage.IBMFunction_HatchSuccess">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Pacific cod egg hatch sucess rate</string>
+      </void>
+      <void property="description">
+       <string>temperature-dependent hatch sucess for Pacific cod</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Laurel and Rogers (2020)
+	* temperature-dependent function for hatch success of Pacific cod eggs.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      h - Double - fraction successfully hatched
+	* Calculation:
+	*     h = 0.453/(1.0+(((t-4.192)/2.125)^2))
+	* 
+	*  Citation:
+	* Laurel, BJ and LA Rogers. 2020. Loss of spawning habitat and prerecruits
+	* of Pacific cod during a Gulf of Alaska heatwave. CJFAS.
+	* dx.doi.org/10.1139/cjfas-2019-0238.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Pacific cod egg hatch sucess rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>embryo SL growth rates</string>
+     <string>Growth rate (mm/d) in standard length for Pacific cod embryos</string>
+     <object class="sh.pcod.EggStage.IBMFunction_EggStageGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in standard length for Pacific cod embryos</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in standard length for Pacific cod embryos</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in standard length of Pacific cod embryos.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = 0.104 + (0.024 * t) - (0.00002 * t * t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>embryo SL growth rates</string>
+     <string>Growth rate (mm/d) in standard length for Pacific cod embryos</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>embryo SL growth rates</string>
+     <string>STDG rate (mm/d) for standard length of embryos in Pacific cod egg stages</string>
+     <object class="sh.pcod.EggStage.IBMFunction_EggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length of embryos in Pacific cod egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length of embryos in Pacific cod egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of embryos in egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = 0.076 + 0.029*t - 0.00002*t*t
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>embryo DW growth rates</string>
+     <string>Growth rate (g/g/d) in dry weight for embryos in Pacific cod eggs</string>
+     <object class="sh.pcod.EggStage.IBMFunction_EggStageGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (g/g/d) in dry weight for embryos in Pacific cod eggs</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (g/g/d) in dry weight for embryos in Pacific cod eggs</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight of Pacific cod eggs-embryos.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (g/g/d)
+	* Calculation:
+	*     r = (3.807 + (1.493 * t) - (0.032 * t * t))/100
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>embryo DW growth rates</string>
+     <string>Growth rate (g/g/d) in dry weight for embryos in Pacific cod eggs</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>embryo DW growth rates</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight of embryos in Pacific cod egg stages</string>
+     <object class="sh.pcod.EggStage.IBMFunction_EggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight of embryos in Pacific cod egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight of embryos in Pacific cod egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight  of embryos in Pacific cod egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for embryos in egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m)+3.705)/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>stage duration (d)</string>
+     <string>Temperature-dependent stage duration for Pacific cod eggs-embryos</string>
+     <object class="sh.pcod.EggStage.IBMFunction_EggStageDuration">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Temperature-dependent stage duration for Pacific cod eggs-embryos</string>
+      </void>
+      <void property="description">
+       <string>Temperature-dependent stage duration for Pacific cod eggs-embryos</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight of Pacific cod eggs-embryos.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      D - Double - stage duration (d)
+	* Calculation:
+	*     D = 46.597 - 4.079 * T
+	* 
+	*  Citation:
+	* Hinckley et al., 2019.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>stage duration (d)</string>
+     <string>Temperature-dependent stage duration for Pacific cod eggs-embryos</string>
+    </void>
+    <void property="typeName">
+     <string>Eggs</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>YSL</string>
+   <object class="sh.pcod.YSLStage.YSLStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>0.11</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>2.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>365.0</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>Growth rate (mm/d) in standard length for Pacific cod YSL</string>
+     <object class="sh.pcod.YSLStage.IBMFunction_YSL_GrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in standard length for Pacific cod YSL</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in standard length for Pacific cod YSL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the corrected Hurst et al. (2010)
+	* temperature-dependent function for growth in standard length of Pacific cod YSL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = 0.0179 + (0.015 * t) - (0.0001 * t * t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of non-egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      L - Double value of standard length (mm)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = (0.076 + 0.029*t - 0.00002*t*t)/(1-0.059/exp(L^0.0758))
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod YSL</string>
+     <object class="sh.pcod.YSLStage.IBMFunction_YSL_GrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod YSL</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod YSL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod YSL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - intrinsic growth rate for YSL dry weight (g/g/d)
+	* Calculation:
+	*     r = (2.990 + 0.772*t - 0.077*t*t)/100
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m))/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageBIOENGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Kristiansen et al. (2007)
+	* prey-density/temperature-dependent function for growth in dry weight for
+	* Pcod larvae.
+	* 
+	* 
+	* @author Giancarlo M. Correa
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	*      OTHERS TO BE DEFINED
+	* Value:
+	*      r - Double - intrinsic BIOEN growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     See main paper.
+	* 
+	*  Citation:
+	* Kristiansen et al. (2007)
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>point-of-no return</string>
+     <string>time to point-of-no return in days for Pacific cod YSL</string>
+     <object class="sh.pcod.YSLStage.IBMFunction_YSL_PNR">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>time to point-of-no return in days for Pacific cod YSL</string>
+      </void>
+      <void property="description">
+       <string>time to point-of-no return in days for Pacific cod YSL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Laurel et al. (2008)
+	* temperature-dependent function for time to point-of-no return (in days) for Pacific cod YSL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      PNR - Double - time to point-of-no return (in days)
+	* Calculation:
+	*     PNR = 34.67 * exp(-0.126 * T)
+	* 
+	*  Citation:
+	* Laurel et al. 2008.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>point-of-no return</string>
+     <string>time to point-of-no return in days for Pacific cod YSL</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>yolk-sac absorption</string>
+     <string>time to yolk-sac absorption (in days) for Pacific cod YSL</string>
+     <object class="sh.pcod.YSLStage.IBMFunction_YSL_YSA">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>time to yolk-sac absorption (in days) for Pacific cod YSL</string>
+      </void>
+      <void property="description">
+       <string>time to yolk-sac absorption (in days) for Pacific cod YSL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Laurel et al. (2008)
+	* temperature-dependent function for time to yolk-sac absorption (in days) for Pacific cod YSL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      YSA - Double - time to yolk-sac absorption (in days)
+	* Calculation:
+	*     YSA = 14.7662 * exp(-0.235 * T)
+	* 
+	*  Citation:
+	* Laurel et al. 2008.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>yolk-sac absorption</string>
+     <string>time to yolk-sac absorption (in days) for Pacific cod YSL</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Movement.DielVerticalMigration_FixedDepthRanges">
+      <void property="functionType">
+       <string>Swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="description">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of diel vertical migration between
+	* fixed &apos;preferred&apos; depth ranges.  When inside the time-specific preferred
+	* depth range, vertical movement describes an uncorrelated random walk.  When outside
+	* the preferred range, a vertical swimming speed (externally calculated) is applied
+	* in the direction that would move the individual toward the preferred depth range.
+	* 
+	* Function type: 
+	*      vertical movement
+	* Parameters (by key):
+	*      hasPreferredDepthRangeDay - boolean
+	*      willAttachDay - boolean
+	*      minDepthDay   - Double
+	*      maxDepthDay   - Double
+	*      hasPreferredDepthRangeNight - boolean
+	*      willAttachNight - boolean
+	*      minDepthNight   - Double
+	*      maxDepthNight   - Double
+	*      rpw - Double - random walk parameter w/in preferred depth range ([distance]^2/[time])
+	* Variables:
+	*      dt          - [0] - integration time step
+	*      depth       - [1] - current depth of individual
+	*      total depth - [2] - total depth at location
+	*      w           - [3] - active vertical swimming speed outside preferred depth range
+	*      lightLevel  - [4] - value &gt;= 0 indicates daytime, otherwise night 
+	* Value:
+	*      double[] where
+	*      [1]: vertical swimming speed
+	*      [2]: flag indicating whether individual is attached to the bottom (value&gt;0) and cannot be advected horizontally.
+	* Calculation:
+	*      eps  = N(0,1) [random draw from a normal distribution)
+	*      v    = w*delta(outside preferred depth range) + sqrt(rpw/dt)*eps;
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred daytime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred daytime depth range?</string>
+       <string>has preferred daytime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (day)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (day)</string>
+       <string>will attach to bottom (day)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min daytime depth (m)</string>
+       <double>1.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min daytime depth (m)</string>
+       <string>min daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max daytime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max daytime depth (m)</string>
+       <string>max daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred nighttime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred nighttime depth range?</string>
+       <string>has preferred nighttime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (night)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (night)</string>
+       <string>will attach to bottom (night)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min nighthtime depth (m)</string>
+       <double>1.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min nighthtime depth (m)</string>
+       <string>min nighthtime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max nighttime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max nighttime depth (m)</string>
+       <string>max nighttime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>random walk parameter (m^2/s)</string>
+       <double>1.0E-4</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>random walk parameter (m^2/s)</string>
+       <string>random walk parameter (m^2/s)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical velocity</string>
+     <string>Constant movement rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.SwimmingBehavior.ConstantMovementRateFunction">
+      <void property="functionType">
+       <string>movement</string>
+      </void>
+      <void property="functionName">
+       <string>Constant movement rate</string>
+      </void>
+      <void property="description">
+       <string>v = rate + sqrt(rpw/dt)*N(0,1) [m/s]</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a stochastic swimming speed.
+	* Function type: 
+	*      Swimming speed
+	* Parameters (by key):
+	*      rate - Double - mean swimming speed [m/s]
+	*      rpw  - Double - random walk parameter [m^2/s]
+	* Variables:
+	*      double[]{dt} 
+	       dt   - time step [s]
+	* Value:
+	*      v - Double - swimming speed [m/s]
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>rate (m/s)</string>
+       <double>1.0E-4</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>rate (m/s)</string>
+       <string>rate (m/s)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>random walk parameter (m^2/s)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>random walk parameter (m^2/s)</string>
+       <string>random walk parameter (m^2/s)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical velocity</string>
+     <string>Constant movement rate</string>
+    </void>
+    <void property="typeName">
+     <string>YSL</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FDL</string>
+   <object class="sh.pcod.FDLStage.FDLStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>0.11</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>5.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>365.0</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>Growth rate (mm/d) in standard length for Pacific cod FDL</string>
+     <object class="sh.pcod.FDLStage.IBMFunction_FDL_GrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in standard length for Pacific cod FDL</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in standard length for Pacific cod FDL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the corrected Hurst et al. (2010)
+	* temperature-dependent function for growth in standard length of Pacific cod FDL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = 0.0179 + (0.015 * t) - (0.0001 * t * t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of non-egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      L - Double value of standard length (mm)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = (0.076 + 0.029*t - 0.00002*t*t)/(1-0.059/exp(L^0.0758))
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDL</string>
+     <object class="sh.pcod.FDLStage.IBMFunction_FDL_GrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDL</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDL</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod FDL.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - intrinsic growth rate for FDL dry weight (g/g/d)
+	* Calculation:
+	*     r = (2.990 + 0.772*t - 0.077*t*t)/100
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m))/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageBIOENGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Kristiansen et al. (2007)
+	* prey-density/temperature-dependent function for growth in dry weight for
+	* Pcod larvae.
+	* 
+	* 
+	* @author Giancarlo M. Correa
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	*      OTHERS TO BE DEFINED
+	* Value:
+	*      r - Double - intrinsic BIOEN growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     See main paper.
+	* 
+	*  Citation:
+	* Kristiansen et al. (2007)
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Movement.DielVerticalMigration_FixedDepthRanges">
+      <void property="functionType">
+       <string>Swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="description">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of diel vertical migration between
+	* fixed &apos;preferred&apos; depth ranges.  When inside the time-specific preferred
+	* depth range, vertical movement describes an uncorrelated random walk.  When outside
+	* the preferred range, a vertical swimming speed (externally calculated) is applied
+	* in the direction that would move the individual toward the preferred depth range.
+	* 
+	* Function type: 
+	*      vertical movement
+	* Parameters (by key):
+	*      hasPreferredDepthRangeDay - boolean
+	*      willAttachDay - boolean
+	*      minDepthDay   - Double
+	*      maxDepthDay   - Double
+	*      hasPreferredDepthRangeNight - boolean
+	*      willAttachNight - boolean
+	*      minDepthNight   - Double
+	*      maxDepthNight   - Double
+	*      rpw - Double - random walk parameter w/in preferred depth range ([distance]^2/[time])
+	* Variables:
+	*      dt          - [0] - integration time step
+	*      depth       - [1] - current depth of individual
+	*      total depth - [2] - total depth at location
+	*      w           - [3] - active vertical swimming speed outside preferred depth range
+	*      lightLevel  - [4] - value &gt;= 0 indicates daytime, otherwise night 
+	* Value:
+	*      double[] where
+	*      [1]: vertical swimming speed
+	*      [2]: flag indicating whether individual is attached to the bottom (value&gt;0) and cannot be advected horizontally.
+	* Calculation:
+	*      eps  = N(0,1) [random draw from a normal distribution)
+	*      v    = w*delta(outside preferred depth range) + sqrt(rpw/dt)*eps;
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred daytime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred daytime depth range?</string>
+       <string>has preferred daytime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (day)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (day)</string>
+       <string>will attach to bottom (day)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min daytime depth (m)</string>
+       <double>1.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min daytime depth (m)</string>
+       <string>min daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max daytime depth (m)</string>
+       <double>20.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max daytime depth (m)</string>
+       <string>max daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred nighttime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred nighttime depth range?</string>
+       <string>has preferred nighttime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (night)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (night)</string>
+       <string>will attach to bottom (night)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min nighthtime depth (m)</string>
+       <double>20.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min nighthtime depth (m)</string>
+       <string>min nighthtime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max nighttime depth (m)</string>
+       <double>40.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max nighttime depth (m)</string>
+       <string>max nighttime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>random walk parameter (m^2/s)</string>
+       <double>0.001</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>random walk parameter (m^2/s)</string>
+       <string>random walk parameter (m^2/s)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod FDL as function of temperature and size</string>
+     <object class="sh.pcod.FDLStage.IBMFunction_FDL_VerticalSwimmingSpeed">
+      <void property="functionType">
+       <string>Vertical swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Vertical swimming speed (mm/s) for Pacific cod FDL as function of temperature and size</string>
+      </void>
+      <void property="description">
+       <string>Vertical swimming speed (mm/s) for Pacific cod FDL as function of temperature and size</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of vertical swimming speed (mm/s)
+	* for Pacific cod FDL as a function of temperature and total length
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      z - Double value of total length (mm)
+	* Value:
+	*      s - Double - vertical swimming speed (mm/s)
+	* Calculation:
+	*     s = ((0.081221 + 0.043168 log10[t]) * TL^1.49652)
+	* 
+	*  Citation:
+	* Hurst, pers. comm.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod FDL as function of temperature and size</string>
+    </void>
+    <void property="typeName">
+     <string>FDL</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FDLpf</string>
+   <object class="sh.pcod.FDLpfStage.FDLpfStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>2.89</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>0.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>365.0</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>Growth rate (mm/d) in standard length for Pacific cod FDLpf</string>
+     <object class="sh.pcod.FDLpfStage.IBMFunction_FDLpf_GrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in standard length for Pacific cod FDLpf</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in standard length for Pacific cod FDLpf</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in standard length of Pacific cod FDLpf.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = 0.034 + (0.043*t) - (0.0008*t*t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of non-egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      L - Double value of standard length (mm)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = (0.076 + 0.029*t - 0.00002*t*t)/(1-0.059/exp(L^0.0758))
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDLpf</string>
+     <object class="sh.pcod.FDLpfStage.IBMFunction_FDLpf_GrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDLpf</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod FDLpf</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod FDLpf.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - intrinsic growth rate for FDLpf dry weight (g/g/d)
+	* Calculation:
+	*     r = (1.652 + 1.059*t - 0.028*t*t)/100;
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m))/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageBIOENGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Kristiansen et al. (2007)
+	* prey-density/temperature-dependent function for growth in dry weight for
+	* Pcod larvae.
+	* 
+	* 
+	* @author Giancarlo M. Correa
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	*      OTHERS TO BE DEFINED
+	* Value:
+	*      r - Double - intrinsic BIOEN growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     See main paper.
+	* 
+	*  Citation:
+	* Kristiansen et al. (2007)
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Movement.DielVerticalMigration_FixedDepthRanges">
+      <void property="functionType">
+       <string>Swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="description">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of diel vertical migration between
+	* fixed &apos;preferred&apos; depth ranges.  When inside the time-specific preferred
+	* depth range, vertical movement describes an uncorrelated random walk.  When outside
+	* the preferred range, a vertical swimming speed (externally calculated) is applied
+	* in the direction that would move the individual toward the preferred depth range.
+	* 
+	* Function type: 
+	*      vertical movement
+	* Parameters (by key):
+	*      hasPreferredDepthRangeDay - boolean
+	*      willAttachDay - boolean
+	*      minDepthDay   - Double
+	*      maxDepthDay   - Double
+	*      hasPreferredDepthRangeNight - boolean
+	*      willAttachNight - boolean
+	*      minDepthNight   - Double
+	*      maxDepthNight   - Double
+	*      rpw - Double - random walk parameter w/in preferred depth range ([distance]^2/[time])
+	* Variables:
+	*      dt          - [0] - integration time step
+	*      depth       - [1] - current depth of individual
+	*      total depth - [2] - total depth at location
+	*      w           - [3] - active vertical swimming speed outside preferred depth range
+	*      lightLevel  - [4] - value &gt;= 0 indicates daytime, otherwise night 
+	* Value:
+	*      double[] where
+	*      [1]: vertical swimming speed
+	*      [2]: flag indicating whether individual is attached to the bottom (value&gt;0) and cannot be advected horizontally.
+	* Calculation:
+	*      eps  = N(0,1) [random draw from a normal distribution)
+	*      v    = w*delta(outside preferred depth range) + sqrt(rpw/dt)*eps;
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred daytime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred daytime depth range?</string>
+       <string>has preferred daytime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (day)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (day)</string>
+       <string>will attach to bottom (day)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min daytime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min daytime depth (m)</string>
+       <string>min daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max daytime depth (m)</string>
+       <double>60.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max daytime depth (m)</string>
+       <string>max daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred nighttime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred nighttime depth range?</string>
+       <string>has preferred nighttime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (night)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (night)</string>
+       <string>will attach to bottom (night)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min nighthtime depth (m)</string>
+       <double>1.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min nighthtime depth (m)</string>
+       <string>min nighthtime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max nighttime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max nighttime depth (m)</string>
+       <string>max nighttime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>random walk parameter (m^2/s)</string>
+       <double>0.001</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>random walk parameter (m^2/s)</string>
+       <string>random walk parameter (m^2/s)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod FDLpf as function of temperature and size</string>
+     <object class="sh.pcod.FDLpfStage.IBMFunction_FDLpf_VerticalSwimmingSpeed">
+      <void property="functionType">
+       <string>Vertical swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Vertical swimming speed (mm/s) for Pacific cod FDLpf as function of temperature and size</string>
+      </void>
+      <void property="description">
+       <string>Vertical swimming speed (mm/s) for Pacific cod FDLpf as function of temperature and size</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of vertical swimming speed (mm/s)
+	* for Pacific cod FDLpf as a function of temperature and total length
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      z - Double value of total length (mm)
+	* Value:
+	*      s - Double - vertical swimming speed (mm/s)
+	* Calculation:
+	*     s = ((0.081221 + 0.043168 log10[t]) * TL^1.49652)
+	* 
+	*  Citation:
+	* Hurst, pers. comm.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod FDLpf as function of temperature and size</string>
+    </void>
+    <void property="typeName">
+     <string>FDLpf</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>Epijuv</string>
+   <object class="sh.pcod.EpijuvStage.EpijuvStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>11.57</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>0.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>365.0</double>
+    </void>
+    <void method="setValue">
+     <string>min settlement depth (m)</string>
+     <double>5.0</double>
+    </void>
+    <void method="setValue">
+     <string>max settlement depth (m)</string>
+     <double>150.0</double>
+    </void>
+    <void method="setValue">
+     <string>min settlement HSI (0-1)</string>
+     <double>0.35</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of non-egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      L - Double value of standard length (mm)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = (0.076 + 0.029*t - 0.00002*t*t)/(1-0.059/exp(L^0.0758))
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m))/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageBIOENGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Kristiansen et al. (2007)
+	* prey-density/temperature-dependent function for growth in dry weight for
+	* Pcod larvae.
+	* 
+	* 
+	* @author Giancarlo M. Correa
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	*      OTHERS TO BE DEFINED
+	* Value:
+	*      r - Double - intrinsic BIOEN growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     See main paper.
+	* 
+	*  Citation:
+	* Kristiansen et al. (2007)
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (TL)</string>
+     <string>Growth rate (mm/d) in total length for Pacific cod Epijuv</string>
+     <object class="sh.pcod.EpijuvStage.IBMFunction_Epijuv_GrowthRateTL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in total length for Pacific cod Epijuv</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in total length for Pacific cod Epijuv</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in total length of Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d for total length)
+	* Calculation:
+	*     r = -0.081 + (0.079*t) - (0.003*t*t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (TL)</string>
+     <string>Growth rate (mm/d) in total length for Pacific cod Epijuv</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (WW)</string>
+     <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod Epijuv</string>
+     <object class="sh.pcod.EpijuvStage.IBMFunction_Epijuv_GrowthRateWW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod Epijuv</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod Epijuv</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in wet weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - intrinsic growth rate for Epijuv wet weight (g/g/d)
+	* Calculation:
+	*     r = (-0.998 + 0.579*t - 0.022*t*t)/100; (original eq. in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (WW)</string>
+     <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod Epijuv</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Movement.DielVerticalMigration_FixedDepthRanges">
+      <void property="functionType">
+       <string>Swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="description">
+       <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of diel vertical migration between
+	* fixed &apos;preferred&apos; depth ranges.  When inside the time-specific preferred
+	* depth range, vertical movement describes an uncorrelated random walk.  When outside
+	* the preferred range, a vertical swimming speed (externally calculated) is applied
+	* in the direction that would move the individual toward the preferred depth range.
+	* 
+	* Function type: 
+	*      vertical movement
+	* Parameters (by key):
+	*      hasPreferredDepthRangeDay - boolean
+	*      willAttachDay - boolean
+	*      minDepthDay   - Double
+	*      maxDepthDay   - Double
+	*      hasPreferredDepthRangeNight - boolean
+	*      willAttachNight - boolean
+	*      minDepthNight   - Double
+	*      maxDepthNight   - Double
+	*      rpw - Double - random walk parameter w/in preferred depth range ([distance]^2/[time])
+	* Variables:
+	*      dt          - [0] - integration time step
+	*      depth       - [1] - current depth of individual
+	*      total depth - [2] - total depth at location
+	*      w           - [3] - active vertical swimming speed outside preferred depth range
+	*      lightLevel  - [4] - value &gt;= 0 indicates daytime, otherwise night 
+	* Value:
+	*      double[] where
+	*      [1]: vertical swimming speed
+	*      [2]: flag indicating whether individual is attached to the bottom (value&gt;0) and cannot be advected horizontally.
+	* Calculation:
+	*      eps  = N(0,1) [random draw from a normal distribution)
+	*      v    = w*delta(outside preferred depth range) + sqrt(rpw/dt)*eps;
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred daytime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred daytime depth range?</string>
+       <string>has preferred daytime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (day)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (day)</string>
+       <string>will attach to bottom (day)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min daytime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min daytime depth (m)</string>
+       <string>min daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max daytime depth (m)</string>
+       <double>60.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max daytime depth (m)</string>
+       <string>max daytime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>has preferred nighttime depth range?</string>
+       <boolean>true</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>has preferred nighttime depth range?</string>
+       <string>has preferred nighttime depth range?</string>
+      </void>
+      <void method="setParameterValue">
+       <string>will attach to bottom (night)</string>
+       <boolean>false</boolean>
+      </void>
+      <void method="setParameterDescription">
+       <string>will attach to bottom (night)</string>
+       <string>will attach to bottom (night)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>min nighthtime depth (m)</string>
+       <double>1.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>min nighthtime depth (m)</string>
+       <string>min nighthtime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>max nighttime depth (m)</string>
+       <double>30.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>max nighttime depth (m)</string>
+       <string>max nighttime depth (m)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>random walk parameter (m^2/s)</string>
+       <double>0.005</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>random walk parameter (m^2/s)</string>
+       <string>random walk parameter (m^2/s)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical movement</string>
+     <string>Diel vertical migration between (fixed) preferred depth ranges</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod Epijuv as function of temperature and size</string>
+     <object class="sh.pcod.EpijuvStage.IBMFunction_Epijuv_VerticalSwimmingSpeed">
+      <void property="functionType">
+       <string>Vertical swimming speed</string>
+      </void>
+      <void property="functionName">
+       <string>Vertical swimming speed (mm/s) for Pacific cod Epijuv as function of temperature and size</string>
+      </void>
+      <void property="description">
+       <string>Vertical swimming speed (mm/s) for Pacific cod Epijuv as function of temperature and size</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of vertical swimming speed (mm/s)
+	* for Pacific cod Epijuv as a function of temperature and total length
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      z - Double value of total length (mm)
+	* Value:
+	*      s - Double - vertical swimming speed (mm/s)
+	* Calculation:
+	*     s = ((0.081221 + 0.043168 log10[t]) * TL^1.49652)
+	* 
+	*  Citation:
+	* Hurst, pers. comm.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>vertical velocity</string>
+     <string>Vertical swimming speed (mm/s) for Pacific cod Epijuv as function of temperature and size</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>constant HSM</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_Constant">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>constant HSM</string>
+      </void>
+      <void property="description">
+       <string>returns a constant value for the HSM regardless of the specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides a constant-value implementation of an HSM function.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      value
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the value, regardless of specified position
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the value</string>
+       <double>0.3</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>the value</string>
+       <string>the value</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>habitat suitability</string>
+     <string>constant HSM</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>HSM function for netCDF file</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_NetCDF">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>HSM function for netCDF file</string>
+      </void>
+      <void property="description">
+       <string>returns HSM value at specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a function to read HSM values from a netCDF file.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      fileName - String - file name
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the hsm value at the provided location
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the netCDF file name</string>
+       <string></string>
+      </void>
+      <void method="setParameterDescription">
+       <string>the netCDF file name</string>
+       <string>the netCDF file name</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>HSM function for in-memory access based on a netCDF file</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_NetCDF_InMemory">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>HSM function for in-memory access based on a netCDF file</string>
+      </void>
+      <void property="description">
+       <string>returns HSM value at specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an in-memory implementation of a function to read HSM values from a netCDF file.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      fileName - String - file name
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the hsm value at the provided location
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the netCDF file name</string>
+       <string></string>
+      </void>
+      <void method="setParameterDescription">
+       <string>the netCDF file name</string>
+       <string>the netCDF file name</string>
+      </void>
+     </object>
+    </void>
+    <void property="typeName">
+     <string>Epijuv</string>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>BenthicJuv</string>
+   <object class="sh.pcod.BenthicJuvStage.BenthicJuvStageParameters">
+    <void method="setValue">
+     <string>is a super-individual?</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setValue">
+     <string>horizontal random walk parameter [m^2]/[s]</string>
+     <double>0.0</double>
+    </void>
+    <void method="setValue">
+     <string>min stage duration [d]</string>
+     <double>0.0</double>
+    </void>
+    <void method="setValue">
+     <string>max stage duration [d]</string>
+     <double>1.0</double>
+    </void>
+    <void method="setValue">
+     <string>use random transitions</string>
+     <boolean>false</boolean>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.ConstantMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Constant mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Constant mortality rate with additive random noise</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a constant mortality rate function.
+	* Type: 
+	*      mortality function
+	* Parameters (by key):
+	*      rate    - Double - mortality rate (1/day)
+	*      sigRate - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - double[]{} or null
+	* Value:
+	*      mortality rate
+	* Calculation:
+	*      mortality_rate = Max[mean_rate+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>mean mortality rate [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>mean mortality rate [1/day]</string>
+       <string>mean mortality rate [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate</string>
+       <string>std. dev. of rate</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>mortality</string>
+     <string>Constant mortality rate</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>mortality</string>
+     <string>Inverse power law mortality rate</string>
+     <object class="wts.models.DisMELS.IBMFunctions.Mortality.InversePowerLawMortalityRate">
+      <void property="functionType">
+       <string>Mortality</string>
+      </void>
+      <void property="functionName">
+       <string>Inverse power law mortality rate</string>
+      </void>
+      <void property="description">
+       <string>Inverse power law rate with additive random noise: m = m0*(z0/z)^a + stdv*N(0,1)</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of an inverse power law mortality function.
+	* Type: mortality function
+	* Parameters (by key):
+	*      rate     - Double - mortality rate (1/day) at the standard covariate value
+	*      stdVal   - Double - the standard covariate value
+	*      exponent - Double - inverse power law exponent
+	*      sigRate  - Double - std. deviation in random component of mortality
+	* Variables:
+	*      vars - Double - the covariate value (val)
+	* Value:
+	*      mortality rate - Double
+	* Calculation:
+	*      mortality_rate = Max[rate*(stdVal/val)^exponent+stdv*N(0,1)),0];
+	* 
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>standardized mortality rate (m0) [1/day]</string>
+       <string>standardized mortality rate (m0) [1/day]</string>
+      </void>
+      <void method="setParameterValue">
+       <string>covariate standard value (z0)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>covariate standard value (z0)</string>
+       <string>covariate standard value (z0)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>exponent (a)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>exponent (a)</string>
+       <string>exponent (a)</string>
+      </void>
+      <void method="setParameterValue">
+       <string>std. dev. of rate (stdv)</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>std. dev. of rate (stdv)</string>
+       <string>std. dev. of rate (stdv)</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateSL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* size/temperature-dependent function for growth (STDG) in standard length of non-egg stages.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      L - Double value of standard length (mm)
+	* Value:
+	*      r - Double - growth rate (mm/d)
+	* Calculation:
+	*     r = (0.076 + 0.029*t - 0.00002*t*t)/(1-0.059/exp(L^0.0758))
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (SL)</string>
+     <string>STDG rate (mm/d) for standard length in Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageSTDGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in dry weight for Pacific cod Epijuv.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	* Value:
+	*      r - Double - intrinsic STDG growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     r = ((0.454 + 1.610*t - 0.069*t*t)*exp(-6.725*m))/100; (original in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010, eq. 4.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+     <object class="sh.pcod.IBMFunction_NonEggStageBIOENGrowthRateDW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="description">
+       <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Kristiansen et al. (2007)
+	* prey-density/temperature-dependent function for growth in dry weight for
+	* Pcod larvae.
+	* 
+	* 
+	* @author Giancarlo M. Correa
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	*      m - Double value of dry weight (micrograms)
+	*      OTHERS TO BE DEFINED
+	* Value:
+	*      r - Double - intrinsic BIOEN growth rate in dry weight (g/g/d) for egg stages
+	* Calculation:
+	*     See main paper.
+	* 
+	*  Citation:
+	* Kristiansen et al. (2007)
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (DW)</string>
+     <string>Bioenergetics-Intrinsic growth rate (g/g/d) in dry weight for Pacific cod non-egg stages</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (TL)</string>
+     <string>Growth rate (mm/d) in total length for Pacific cod benthic juveniles</string>
+     <object class="sh.pcod.BenthicJuvStage.IBMFunction_BenthicJuv_GrowthRateTL">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Growth rate (mm/d) in total length for Pacific cod benthic juveniles</string>
+      </void>
+      <void property="description">
+       <string>Growth rate (mm/d) in total length for Pacific cod benthic juveniles</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in total length of Pacific cod benthic juveniles.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - growth rate (mm/d for total length)
+	* Calculation:
+	*     r = -0.081 + (0.079*t) - (0.003*t*t)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (TL)</string>
+     <string>Growth rate (mm/d) in total length for Pacific cod benthic juveniles</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>growth (WW)</string>
+     <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod benthic juveniles</string>
+     <object class="sh.pcod.BenthicJuvStage.IBMFunction_BenthicJuv_GrowthRateWW">
+      <void property="functionType">
+       <string>Growth</string>
+      </void>
+      <void property="functionName">
+       <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod benthic juveniles</string>
+      </void>
+      <void property="description">
+       <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod benthic juveniles</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This function provides an implementation of the Hurst et al. (2010)
+	* temperature-dependent function for growth in wet weight for Pacific cod benthic juveniles.
+	* 
+	* 
+	* @author William Stockhausen
+	* 
+	* Variables:
+	*      t - Double value of temperature (deg C)
+	* Value:
+	*      r - Double - intrinsic growth rate for benthic juvenile wet weight (g/g/d)
+	* Calculation:
+	*     r = (-0.998 + 0.579*t - 0.022*t*t)/100; (original eq. in %/d)
+	* 
+	*  Citation:
+	* Hurst et al. 2010.
+	**************************************************************************</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>growth (WW)</string>
+     <string>Intrinsic growth rate (g/g/d) in wet weight for Pacific cod benthic juveniles</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>constant HSM</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_Constant">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>constant HSM</string>
+      </void>
+      <void property="description">
+       <string>returns a constant value for the HSM regardless of the specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides a constant-value implementation of an HSM function.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      value
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the value, regardless of specified position
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the value</string>
+       <double>0.0</double>
+      </void>
+      <void method="setParameterDescription">
+       <string>the value</string>
+       <string>the value</string>
+      </void>
+     </object>
+    </void>
+    <void method="setSelectedIBMFunctionForCategory">
+     <string>habitat suitability</string>
+     <string>constant HSM</string>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>HSM function for netCDF file</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_NetCDF">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>HSM function for netCDF file</string>
+      </void>
+      <void property="description">
+       <string>returns HSM value at specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an implementation of a function to read HSM values from a netCDF file.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      fileName - String - file name
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the hsm value at the provided location
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the netCDF file name</string>
+       <string></string>
+      </void>
+      <void method="setParameterDescription">
+       <string>the netCDF file name</string>
+       <string>the netCDF file name</string>
+      </void>
+     </object>
+    </void>
+    <void method="setIBMFunction">
+     <string>habitat suitability</string>
+     <string>HSM function for in-memory access based on a netCDF file</string>
+     <object class="wts.models.DisMELS.IBMFunctions.HSMs.HSMFunction_NetCDF_InMemory">
+      <void property="functionType">
+       <string>HSM</string>
+      </void>
+      <void property="functionName">
+       <string>HSM function for in-memory access based on a netCDF file</string>
+      </void>
+      <void property="description">
+       <string>returns HSM value at specified position</string>
+      </void>
+      <void property="fullDescription">
+       <string>
+	**************************************************************************
+	* This class provides an in-memory implementation of a function to read HSM values from a netCDF file.
+	* Type: 
+	*      HSM
+	* Parameters (by key):
+	*      fileName - String - file name
+	* Variables:
+	*      vars - any Object or null
+	* Value:
+	*      Double - the hsm value at the provided location
+	* author: William.Stockhausen
+	**************************************************************************</string>
+      </void>
+      <void method="setParameterValue">
+       <string>the netCDF file name</string>
+       <string></string>
+      </void>
+      <void method="setParameterDescription">
+       <string>the netCDF file name</string>
+       <string>the netCDF file name</string>
+      </void>
+     </object>
+    </void>
+    <void property="typeName">
+     <string>BenthicJuv</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

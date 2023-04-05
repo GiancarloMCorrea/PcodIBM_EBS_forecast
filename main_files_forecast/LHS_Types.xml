@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_231" class="java.beans.XMLDecoder">
+ <object class="java.util.LinkedHashMap">
+  <void method="put">
+   <string>Eggs</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type" id="LHS_Type0">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>13</int>
+      <int>30</int>
+      <int>241</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.EggStage.EggStage</string>
+    </void>
+    <void property="LHSName">
+     <string>Eggs</string>
+    </void>
+    <void property="nextLHSs">
+     <void method="put">
+      <string>YSL</string>
+      <string>sh.pcod.YSLStage.YSLStage</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>YSL</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type" id="LHS_Type1">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>86</int>
+      <int>252</int>
+      <int>12</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.YSLStage.YSLStage</string>
+    </void>
+    <void property="LHSName">
+     <string>YSL</string>
+    </void>
+    <void property="nextLHSs">
+     <void method="put">
+      <string>FDL</string>
+      <string>sh.pcod.FDLStage.FDLStage</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FDL</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type" id="LHS_Type2">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>196</int>
+      <int>7</int>
+      <int>240</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.FDLStage.FDLStage</string>
+    </void>
+    <void property="LHSName">
+     <string>FDL</string>
+    </void>
+    <void property="nextLHSs">
+     <void method="put">
+      <string>FDLpf</string>
+      <string>sh.pcod.FDLpfStage.FDLpfStage</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>FDLpf</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type" id="LHS_Type3">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>12</int>
+      <int>119</int>
+      <int>3</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.FDLpfStage.FDLpfStage</string>
+    </void>
+    <void property="LHSName">
+     <string>FDLpf</string>
+    </void>
+    <void property="nextLHSs">
+     <void method="put">
+      <string>Epijuv</string>
+      <string>sh.pcod.EpijuvStage.EpijuvStage</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>Epijuv</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type" id="LHS_Type4">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>247</int>
+      <int>16</int>
+      <int>16</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.EpijuvStage.EpijuvStage</string>
+    </void>
+    <void property="LHSName">
+     <string>Epijuv</string>
+    </void>
+    <void property="nextLHSs">
+     <void method="put">
+      <string>BenthicJuv</string>
+      <string>sh.pcod.BenthicJuvStage.BenthicJuvStage</string>
+     </void>
+    </void>
+   </object>
+  </void>
+  <void method="put">
+   <string>BenthicJuv</string>
+   <object class="wts.models.DisMELS.framework.LHS_Type">
+    <void property="color">
+     <object class="java.awt.Color">
+      <int>12</int>
+      <int>2</int>
+      <int>2</int>
+      <int>255</int>
+     </object>
+    </void>
+    <void property="LHSClass">
+     <string>sh.pcod.BenthicJuvStage.BenthicJuvStage</string>
+    </void>
+    <void property="LHSName">
+     <string>BenthicJuv</string>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

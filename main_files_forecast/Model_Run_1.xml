@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_231" class="java.beans.XMLDecoder">
+ <object class="wts.models.DisMELS.framework.ModelControllerBean">
+  <void property="file_ConnResults">
+   <string>Connectivity_files\ConnecFile</string>
+  </void>
+  <void property="file_InitialAttributes">
+   <string>initAtts.AllSpawningAndPrespawningLocations_04.csv</string>
+  </void>
+  <void property="file_Params">
+   <string>LHS_Parameters.Epijuv1kmHSM.RandomMovement.xml</string>
+  </void>
+  <void property="file_ROMSDataset">
+   <string>D:\Bering10K\ROMSfiles\Bering10k_avg_2003001.nc</string>
+  </void>
+  <void property="file_Results">
+   <string>Results_files\ResultFile</string>
+  </void>
+  <void property="ntBioModel">
+   <int>6</int>
+  </void>
+  <void property="ntEnvironModel">
+   <int>260</int>
+  </void>
+  <void property="randomNumberSeed">
+   <long>123</long>
+  </void>
+  <void property="startTime">
+   <double>3.2504112E9</double>
+  </void>
+  <void property="timeStep">
+   <double>86400.0</double>
+  </void>
+ </object>
+</java>
