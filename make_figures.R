@@ -4,6 +4,15 @@
 #setwd('C:/Users/moroncog/Documents/DisMELS_Pcod_model')
 source('aux_functions.R')
 require(ggplot2)
+library(ncdf4)
+library(plotly)
+library(mapdata)
+
+# install.packages('reticulate')
+# reticulate::install_miniconda(force = TRUE)
+# reticulate::conda_install('r-reticulate', 'python-kaleido')
+# reticulate::conda_install('r-reticulate', 'plotly', channel = 'plotly')
+# reticulate::use_miniconda('r-reticulate')
 
 # figure impacts of climate change  ------------------------------------------------------------------
 min_pco2 = 500
@@ -188,12 +197,29 @@ ggsave(filename = 'figures/source_mort.png', device = 'png', width = 100, height
 # -------------------------------------------------------------------------
 # Plot trajectories 3D two particles:
 
+# Organize depth data:
+load('BathyData.RData')
+newBathy = newBathy[newBathy$value < 0 & newBathy$value > -300, ]
+ak = map_data('worldHires','USA:Alaska')
+nc_base = nc_open('Bering_grid_10k.nc')
+lon = ncvar_get(nc_base, "lon_rho")
+lat = ncvar_get(nc_base, "lat_rho")
+bathy = ncvar_get(nc_base, "h")
+bathy2 = ifelse(test = bathy == 10, yes = bathy, no = bathy*-1)
+
+# Read all data for one year:
 main_folder = 'E:/DisMELS_save_outputs/save_hindcast' # directory where the DisMELS outputs are
 mod_year = list.files(path = file.path(main_folder))
-j = 1
+j = 10 # choose year
 tmpData = read_data_in(eggInclude = FALSE, path = file.path(main_folder, mod_year[j]))
-tmpData$ageYSLround = round(tmpData$ageFromYSL)
-explore_plot_3D(data = tmpData)
 
+# Filter data for one ID:
+sel_id = c(54, 73)
+idData = tmpData[tmpData$id %in% sel_id, ]
 
+# Make 3D plot:
+my_fig = explore_plot_3D(data = idData)
+reticulate::py_run_string("import sys")
+save_image(my_fig, "./pic.png", width = 500, height = 500, scale = 2)
 
+# Then save it using Export in RStudio, and then edit it using GIMP

@@ -179,7 +179,7 @@ read_data_in = function(eggInclude = TRUE, path = 'Results_files') {
 explore_plot_3D = function(data){
 
   require(plotly)
-  if('Eggs' %in% allData$typeName) {
+  if('Eggs' %in% data$typeName) {
     ini_col = 1
   } else {
     ini_col = 2
@@ -199,30 +199,34 @@ fig = fig %>% add_surface(showscale = FALSE,
                             z = list(highlight = FALSE)
                           ),
                           hoverinfo = "none")
-fig = fig %>% add_markers(data = data,
+ids = unique(data$id)
+for(i in seq_along(ids)) {
+  this_data = data[data$id == ids[i], ]
+  fig = fig %>% add_markers(data = this_data,
+                            x = ~horizPos1,
+                            y = ~horizPos2,
+                            z = ~vertPos,
+                            size = I(80),
+                            color = ~typeName,
+                            alpha = 0.95,
+                            text = ~time2,
+                            hovertemplate = paste(
+                              "<b>%{text}</b><br>",
+                              "lon: %{x:.0}<br>",
+                              "lat: %{y:.0}<br>",
+                              "depth: %{z:.0}<br>")
+                            )
+  fig = fig %>% add_trace(data = this_data,
                           x = ~horizPos1,
                           y = ~horizPos2,
                           z = ~vertPos,
-                          size = I(80),
+                          size = I(2),
+                          type = 'scatter3d',
                           color = ~typeName,
-                          alpha = 0.95,
-                          text = ~time2,
-                          hovertemplate = paste(
-                            "<b>%{text}</b><br>",
-                            "lon: %{x:.0}<br>",
-                            "lat: %{y:.0}<br>",
-                            "depth: %{z:.0}<br>")
-                          )
-fig = fig %>% add_trace(data = data,
-                        x = ~horizPos1,
-                        y = ~horizPos2,
-                        z = ~vertPos,
-                        size = I(2),
-                        type = 'scatter3d',
-                        color = ~typeName,
-                        mode = 'lines',
-                        hoverinfo = "none",
-                        showlegend = FALSE)
+                          mode = 'lines',
+                          hoverinfo = "none",
+                          showlegend = FALSE)
+}
 fig = fig %>% layout(
   scene = list(
     xaxis = list(title = "longitude", showspikes=FALSE),
@@ -244,7 +248,7 @@ explore_plot_2D = function(data){
   iniDate = min(as.Date(data$time))
   endDate = max(as.Date(data$time))
   
-  if('Eggs' %in% allData$typeName) {
+  if('Eggs' %in% data$typeName) {
     ini_col = 1
   } else {
     ini_col = 2
