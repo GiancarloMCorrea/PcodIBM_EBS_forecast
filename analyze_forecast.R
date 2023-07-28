@@ -2,8 +2,6 @@ rm(list = ls())
 # ROMS example:
 # Explore ROMS outputs:
 
-setwd('C:/Users/moroncog/Documents/DisMELS_Pcod_model')
-
 library(chron)
 library(RColorBrewer)
 library(lattice)
@@ -33,8 +31,8 @@ library(stringr)
 require(sf)
 source('aux_functions.R')
 #load('BathyData.RData')
-bathy1 = read.csv('main_files_hindcast/bathy1.csv')
-bathy2 = read.csv('main_files_hindcast/bathy2.csv')
+bathy1 = read.csv('main_files_forecast/bathy1.csv')
+bathy2 = read.csv('main_files_forecast/bathy2.csv')
 
 # Read bathymetry information ---------------------------------------------
 
@@ -124,6 +122,8 @@ plot_data_11b = list()
 plot_data_12 = list()
 plot_data_13 = list()
 plot_data_14 = list()
+plot_data_15 = list()
+plot_data_16 = list()
 
 indList = 1
 
@@ -152,13 +152,9 @@ for(k in seq_along(scenarios)) {
       # tmpData$wgt_factor_time[tmpData$dm_init_date == '29-3'] = 2
 
       # Get name for scenarios:
-      # scenario_name = 'hindcast'
-      # ocean_mod_name = 'main'
-      # if(scenarios[k] != 'hindcast') {
-         scenario_name = str_split(string = scenarios[k], pattern = '_', simplify = TRUE)[1,2]
-         ocean_mod_name = str_split(string = scenarios[k], pattern = '_', simplify = TRUE)[1,1]
-      # }
-      
+      scenario_name = str_split(string = scenarios[k], pattern = '_', simplify = TRUE)[1,2]
+      ocean_mod_name = str_split(string = scenarios[k], pattern = '_', simplify = TRUE)[1,1]
+
       # Base initial points: (all fish) Just do it once
       if(k & j == 1) {
         base_locs = tmpData[tmpData[ , .I[which.min(time)], by = id]$V1]
@@ -171,10 +167,6 @@ for(k in seq_along(scenarios)) {
         baseLocs2 = aggregate(list(lon = baseLocs$horizPos1, lat = baseLocs$horizPos2, 
 									depth = baseLocs$vertPos), 
                               list(id_grid = baseLocs$id_grid), unique)
-        
-        # Get databse id - wgt factor
-        # base_wgt = aggregate(list(rel_date = tmpData$dm_init_date), 
-        #                      list(id = tmpData$id), unique)
       }
         
 		# Section 0 ----------
@@ -468,6 +460,40 @@ for(k in seq_along(scenarios)) {
                          ocean_mod = ocean_mod_name)
     plot_data_8c[[indList]] = fdata
 
+    
+    # Section 8.5 ----------
+    # Environmental variables (alive + dead): depth
+    stageData = tmpData
+    env_data = aggregate(x = list(value = stageData$vertPos), 
+                         list(year = stageData$year, id = stageData$id), 
+                         FUN = mean, na.rm=TRUE) # mean values
+    env_data$variable = 'depth'
+    env_data$state = 'dead'
+    env_data$state[env_data$id %in% alive_data$id] = 'alive'
+    env_data$scenario = scenario_name
+    env_data$ocean_mod = ocean_mod_name
+    # Prepare data to save:
+    sel_var = 'value'
+    toPlotData = env_data
+    toPlotData$id_grid = baseLocs$id_grid[match(toPlotData$id, baseLocs$id)]
+    plot_data_15[[indList]] = toPlotData
+    
+    # Section 8.5 ----------
+    # Environmental variables (alive + dead): light
+    stageData = tmpData
+    env_data = aggregate(x = list(value = stageData$eb), 
+                         list(year = stageData$year, id = stageData$id), 
+                         FUN = mean, na.rm=TRUE) # mean values
+    env_data$variable = 'light'
+    env_data$state = 'dead'
+    env_data$state[env_data$id %in% alive_data$id] = 'alive'
+    env_data$scenario = scenario_name
+    env_data$ocean_mod = ocean_mod_name
+    # Prepare data to save:
+    sel_var = 'value'
+    toPlotData = env_data
+    toPlotData$id_grid = baseLocs$id_grid[match(toPlotData$id, baseLocs$id)]
+    plot_data_16[[indList]] = toPlotData 
       
     # Section 9 ----------
     # Prey density field
@@ -642,6 +668,8 @@ save(plot_data_11b, file = file.path(save_folder, 'plot_data_11b.RData'))
 save(plot_data_12, file = file.path(save_folder, 'plot_data_12.RData'))
 save(plot_data_13, file = file.path(save_folder, 'plot_data_13.RData'))
 save(plot_data_14, file = file.path(save_folder, 'plot_data_14.RData'))
+save(plot_data_15, file = file.path(save_folder, 'plot_data_15.RData'))
+save(plot_data_16, file = file.path(save_folder, 'plot_data_16.RData'))
 save(baseLocs, file = file.path(save_folder, 'baseLocs.RData'))
 save(baseLocs2, file = file.path(save_folder, 'baseLocs2.RData'))
 
@@ -688,6 +716,8 @@ load(file.path(save_folder, 'plot_data_11b.RData'))
 load(file.path(save_folder, 'plot_data_12.RData'))
 load(file.path(save_folder, 'plot_data_13.RData'))
 load(file.path(save_folder, 'plot_data_14.RData'))
+load(file.path(save_folder, 'plot_data_15.RData'))
+load(file.path(save_folder, 'plot_data_16.RData'))
 load(file.path(save_folder, 'baseLocs.RData'))
 load(file.path(save_folder, 'baseLocs2.RData'))
 
@@ -871,7 +901,7 @@ ggsave(filename = 'figures/fore_dead_ind.png', width = 190, height = 130, units 
 
 # Plot 11: Environmental variables -------------------------------------------------
 
-# All:
+# All (alive + dead):
 plot_data = bind_rows(plot_data_8a)
 plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
 plot_data$variable = factor(plot_data$variable, levels = c("temperature", 'pCO2'))
@@ -904,63 +934,140 @@ ggplot(plot_data, aes(x = decade)) +
 
 ggsave(filename = 'figures/fore_envvar_all.png', width = 190, height = 130, units = 'mm', dpi = 500) 
 
-# For Andre:
-# mean_temp = plot_data %>% filter(variable == 'temperature') %>% group_by(year, scenario, ocean_mod) %>% summarise(promedio = mean(value))
-# mean_temp = mean_temp[mean_temp$year > 2020, ]
-# write.csv(mean_temp, 'temp_index_fore_forAndre.csv', row.names = FALSE)
+# Only alive:
+plot_data = bind_rows(plot_data_8a)
+plot_data = plot_data %>% filter(state == 'alive')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$variable = factor(plot_data$variable, levels = c("temperature", 'pCO2'))
+plot_data$variable2 = factor(plot_data$variable, labels = c('Temperature~(degree*C)', 'pCO[2]~(mu*atm)'))
 
-# Alive:
-# plot_data = bind_rows(plot_data_8a)
-# plot_data = plot_data[plot_data$state == 'alive', ] # only alive first
-# plot_data$scenario = factor(plot_data$scenario, levels = scenarioLevels, labels = c('RCP8.5', 'RCP4.5'))
-# plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
-# plot_data$variable = factor(plot_data$variable, levels = c("temperature", 'pCO2'))
-# plot_data$variable2 = factor(plot_data$variable, labels = c("Temperature~(C)", 'pCO[2]~(mu*atm)'))
-# plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
-# 
-# # Plot:
-# ggplot(plot_data, aes(x = decade)) + 
-#   geom_boxplot(aes(y = value, fill = scenario, color = scenario), alpha = alphaLevel, 
-#                outlier.size = 0.6) +
-#   theme_bw() +
-#   xlab(NULL) +
-#   ylab(NULL) +
-#   scale_color_manual(values = mainCols) +
-#   scale_fill_manual(values = mainCols) +
-#   theme(legend.position = c(0.1, 0.4), legend.background =element_blank(),
-#         strip.background = element_blank()) +
-#   guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) +
-#   facet_grid(variable2 ~ ocean_mod, scales = 'free_y',
-#              labeller = my_label_parsed)
-# 
-# ggsave(filename = 'figures/fore_envvar_all.png', device = 'png', width = 190, height = 120, units = 'mm', dpi = 500)
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+# Make plot:
+ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab(NULL) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(variable2 ~ scenario, scales = 'free_y', labeller = my_label_parsed)
+
+ggsave(filename = 'figures/fore_envvar_alive.png', width = 190, height = 130, units = 'mm', dpi = 500) 
+
+# Only Dead:
+plot_data = bind_rows(plot_data_8a)
+plot_data = plot_data %>% filter(state == 'dead')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$variable = factor(plot_data$variable, levels = c("temperature", 'pCO2'))
+plot_data$variable2 = factor(plot_data$variable, labels = c('Temperature~(degree*C)', 'pCO[2]~(mu*atm)'))
+
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+# Make plot:
+ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab(NULL) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(variable2 ~ scenario, scales = 'free_y', labeller = my_label_parsed)
+
+ggsave(filename = 'figures/fore_envvar_dead.png', width = 190, height = 130, units = 'mm', dpi = 500) 
+
+# -------------------------------------------------------------------------
+# Depth:
+plot_dataD = bind_rows(plot_data_15)
+plot_data = plot_dataD %>% filter(state == 'dead')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+plot_t_1 = ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab('Depth (m)') +
+  ylim(c(-300, 0)) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(. ~ scenario, scales = 'free_y', labeller = my_label_parsed)
+
+# Light:
+plot_dataL = bind_rows(plot_data_16)
+plot_data = plot_dataL %>% filter(state == 'dead')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+plot_t_2 = ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value*1E-15, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab(expression(Ambient~irradiance~"("*mu*mol*"."*m^{-2}*"."*s^{-1}*")")) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(. ~ scenario, scales = 'free_y', labeller = my_label_parsed)
 
 
-# Dead:
-# plot_data = bind_rows(plot_data_8a)
-# plot_data = plot_data[plot_data$state == 'dead', ] # only alive first
-# plot_data$scenario = factor(plot_data$scenario, levels = scenarioLevels, labels = c('RCP8.5', 'RCP4.5'))
-# plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
-# plot_data$variable = factor(plot_data$variable, levels = c("temperature", 'pCO2'))
-# plot_data$variable2 = factor(plot_data$variable, labels = c("Temperature~(C)", 'pCO[2]~(mu*atm)'))
-# plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
-# 
-# # Plot:
-# ggplot(plot_data, aes(x = decade)) + 
-#   geom_boxplot(aes(y = value, fill = scenario, color = scenario), alpha = alphaLevel, 
-#                outlier.size = 0.6) +
-#   theme_bw() +
-#   xlab(NULL) +
-#   ylab(NULL) +
-#   scale_color_manual(values = mainCols) +
-#   scale_fill_manual(values = mainCols) +
-#   theme(legend.position = c(0.1, 0.4), legend.background =element_blank(),
-#         strip.background = element_blank()) +
-#   guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) +
-#   facet_grid(variable2 ~ ocean_mod, scales = 'free_y',
-#              labeller = my_label_parsed)
-# 
-# ggsave(filename = 'figures/fore_envvar_dead.png', device = 'png', width = 190, height = 120, units = 'mm', dpi = 500)
+# Make plot:
+jpeg(filename = 'figures/fore_depth_light.jpg', width = 200, height = 220, 
+    units = 'mm', res = 500)
+grid.arrange(plot_t_1, plot_t_2, ncol = 1)
+dev.off()
 
 
 # Plot 12: prey density data -------------------------------------------------------
@@ -1003,65 +1110,80 @@ ggplot(plot_data, aes(x = decade)) +
 ggsave(filename = 'figures/fore_prey_all.png', width = 190, height = 190, units = 'mm', dpi = 500) 
 
 # Alive:
-# plot_data = bind_rows(plot_data_9a)
-# plot_data = plot_data[plot_data$state == 'alive', ] # only alive first
-# plot_data$scenario = factor(plot_data$scenario, levels = scenarioLevels, labels = c('RCP8.5', 'RCP4.5'))
-# plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
-# plot_data$variable = factor(plot_data$variable, levels = c("euphausiids",
-#                                                            "neocalanusShelf", 
-#                                                            "neocalanus", "copepods"))
-# plot_data$variable2 = factor(plot_data$variable, labels = c("EupO~(mg~C/m^3)",
-#                                                             "NCaS~(mg~C/m^3)", 
-#                                                             "NCaO~(mg~C/m^3)", "Cop~(mg~C/m^3)"))
-# plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
-# 
-# # Plot:
-# ggplot(plot_data, aes(x = decade)) + 
-#   geom_boxplot(aes(y = value, fill = scenario, color = scenario), alpha = alphaLevel, 
-#                outlier.size = 0.6) +
-#   theme_bw() +
-#   xlab(NULL) +
-#   ylab(NULL) +
-#   scale_color_manual(values = mainCols) +
-#   scale_fill_manual(values = mainCols) +
-#   theme(legend.position = c(0.85, 0.05), legend.background =element_blank(),
-#         strip.background = element_blank()) +
-#   guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) +
-#   facet_grid(variable2 ~ ocean_mod, scales = 'free_y',
-#              labeller = my_label_parsed)
-# 
-# ggsave(filename = 'figures/fore_prey_alive.png', device = 'png', width = 190, height = 220, units = 'mm', dpi = 500)
-# 
-# 
-# # Dead:
-# plot_data = bind_rows(plot_data_9a)
-# plot_data = plot_data[plot_data$state == 'dead', ] # only alive first
-# plot_data$scenario = factor(plot_data$scenario, levels = scenarioLevels, labels = c('RCP8.5', 'RCP4.5'))
-# plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
-# plot_data$variable = factor(plot_data$variable, levels = c("euphausiids",
-#                                                            "neocalanusShelf", 
-#                                                            "neocalanus", "copepods"))
-# plot_data$variable2 = factor(plot_data$variable, labels = c("EupO~(mg~C/m^3)",
-#                                                             "NCaS~(mg~C/m^3)", 
-#                                                             "NCaO~(mg~C/m^3)", "Cop~(mg~C/m^3)"))
-# plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
-# 
-# # Plot:
-# ggplot(plot_data, aes(x = decade)) + 
-#   geom_boxplot(aes(y = value, fill = scenario, color = scenario), alpha = alphaLevel, 
-#                outlier.size = 0.6) +
-#   theme_bw() +
-#   xlab(NULL) +
-#   ylab(NULL) +
-#   scale_color_manual(values = mainCols) +
-#   scale_fill_manual(values = mainCols) +
-#   theme(legend.position = c(0.85, 0.72), legend.background =element_blank(),
-#         strip.background = element_blank()) +
-#   guides(fill=guide_legend(title=NULL), color=guide_legend(title=NULL)) +
-#   facet_grid(variable2 ~ ocean_mod, scales = 'free_y',
-#              labeller = my_label_parsed)
-# 
-# ggsave(filename = 'figures/fore_prey_dead.png', device = 'png', width = 190, height = 220, units = 'mm', dpi = 500)
+plot_data = bind_rows(plot_data_9a)
+plot_data = plot_data %>% filter(state == 'alive')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$variable = factor(plot_data$variable, levels = c("euphausiids",
+                                                           "neocalanusShelf", 
+                                                           "neocalanus", "copepods"))
+plot_data$variable2 = factor(plot_data$variable, labels = c("Eup~(mg~C/m^3)",
+                                                            "NCaS~(mg~C/m^3)", 
+                                                            "NCaO~(mg~C/m^3)", "Cop~(mg~C/m^3)"))
+
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+# Make plot:
+ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab(NULL) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(variable2 ~ scenario, scales = 'free_y', labeller = my_label_parsed)
+
+ggsave(filename = 'figures/fore_prey_alive.png', width = 190, height = 190, units = 'mm', dpi = 500) 
+
+# Dead:
+plot_data = bind_rows(plot_data_9a)
+plot_data = plot_data %>% filter(state == 'dead')
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$variable = factor(plot_data$variable, levels = c("euphausiids",
+                                                           "neocalanusShelf", 
+                                                           "neocalanus", "copepods"))
+plot_data$variable2 = factor(plot_data$variable, labels = c("Eup~(mg~C/m^3)",
+                                                            "NCaS~(mg~C/m^3)", 
+                                                            "NCaO~(mg~C/m^3)", "Cop~(mg~C/m^3)"))
+
+plot_data$decade = cut(plot_data$year, breaks = yearBreaks, labels = decadesLabels)
+plot_data$ocean_mod = factor(plot_data$ocean_mod, levels = oceanLevels)
+plot_data$color_factor = paste0(plot_data$scenario, '_', plot_data$ocean_mod)
+plot_data$color_factor = factor(plot_data$color_factor, levels = color_order,
+                                labels = color_label)
+
+# Make plot:
+ggplot(plot_data, aes(x = decade)) +
+  geom_boxplot(aes(y = value, fill = color_factor, color = color_factor),
+               alpha = alphaLevel, outlier.size = 0.6) +
+  theme_bw() +
+  xlab(NULL) +
+  ylab(NULL) +
+  scale_color_manual(values = mainCols) +
+  scale_fill_manual(values = mainCols) +
+  guides(fill=guide_legend(title=NULL,nrow = 1), 
+         color=guide_legend(title=NULL,nrow = 1),
+         shape = guide_legend(override.aes = list(size = 0.5))) +
+  theme(legend.position = 'top', legend.background =element_blank(),
+        strip.text.x = element_blank(),
+        strip.background = element_blank(),
+        legend.text = element_text(size = 8),
+        axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  facet_grid(variable2 ~ scenario, scales = 'free_y', labeller = my_label_parsed)
+
+ggsave(filename = 'figures/fore_prey_dead.png', width = 190, height = 190, units = 'mm', dpi = 500) 
 
 
 # Plot spatiotemporal trends -----------------------------------------------
